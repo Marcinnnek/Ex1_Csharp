@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex1_Csharp", "Ex1_Csharp\Ex1_Csharp.csproj", "{D803558C-4286-4C01-9714-B03BE4884788}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex1_Csharp_Tests", "Ex1_Csharp_Tests\Ex1_Csharp_Tests.csproj", "{1C52A122-BBAD-471A-81E7-BB652549F9E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D803558C-4286-4C01-9714-B03BE4884788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D803558C-4286-4C01-9714-B03BE4884788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D803558C-4286-4C01-9714-B03BE4884788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D803558C-4286-4C01-9714-B03BE4884788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C52A122-BBAD-471A-81E7-BB652549F9E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C52A122-BBAD-471A-81E7-BB652549F9E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C52A122-BBAD-471A-81E7-BB652549F9E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C52A122-BBAD-471A-81E7-BB652549F9E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA906880-22B1-4C91-911A-F7E5424BB4C8}
+	EndGlobalSection
+EndGlobal
