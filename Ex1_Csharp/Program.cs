@@ -1,57 +1,43 @@
 ﻿using System.Xml;
-using System.IO;
 using System.Xml.Serialization;
 
 
 namespace Ex1_Csharp
 {
-    public class Program
+    public class MyXmlSerializer<T1, T2> where T1 : new() //T1 Shapes, T2 Shape
     {
-        static void Main(string[] args)
+        private XmlSerializer serializer = new XmlSerializer(typeof(T1));
+        private XmlWriterSettings settings = new XmlWriterSettings();
+
+        public MyXmlSerializer()
         {
-            Shapes shapes = new Shapes();
-            List<Shape> shapesList = new List<Shape>()
-            {
-                new Circle(){a=4},
-                new Rectangle(){a=5,b=7},
-                new Rectangle(){a=23,b=33},
-                new Rectangle(){a=15,b=6},
-                new Triangle(){a=10,b=5,c=5},
-                new Triangle(){a=12,b=5,c=10},
-
-            };
-
-
-            shapes.shape = shapesList;
-
-            XmlSerializer serializer = new XmlSerializer(typeof(Shapes));
-            XmlWriterSettings settings = new XmlWriterSettings();
             settings.OmitXmlDeclaration = true;
             settings.Indent = true;
+        }
 
-            XmlWriter writer = XmlWriter.Create(@"D:\shapeTest.xml", settings);
-            serializer.Serialize(writer, shapes);
+        public void SerialzieXml(string XMLlocation, T1 shapeList)
+        {
+            XmlWriter writer = XmlWriter.Create(XMLlocation, settings);
+            serializer.Serialize(writer, shapeList);
             writer.Close();
+        }
+        public T1 DeserializeXml(string XMLlocation)
+        {
+            FileStream readFileStream = new FileStream(XMLlocation, FileMode.Open, FileAccess.Read, FileShare.Read);
+            T1 deserilizer = (T1)serializer.Deserialize(readFileStream);
+            return deserilizer;
+        }
+    }
 
-            FileStream readFileStream = new FileStream(@"D:\shapeTest.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
-            Shapes deserilizer = (Shapes)serializer.Deserialize(readFileStream);
-            int objCount = deserilizer.shape.OfType<Triangle>().Count();
+    public static class GenerateTextFile
+    {
+        private static List<Type> types = new List<Type>();
+        private static List<Type> tempTypes = new List<Type>();
+        public static void SaveAsText(Shapes deserialziedXML, string filesLocation)
+        {
+            deserialziedXML.GetObjectTypes();
 
-
-            Console.WriteLine();
-
-            List<Type> types = new List<Type>();
-            foreach (var item in deserilizer.shape)
-            {
-                if (!types.Contains(item.GetType()))
-                {
-                    types.Add(item.GetType());
-                }
-            }
-
-            List<Type> tempTypes = new List<Type>();
-
-            foreach (var item in deserilizer.shape)
+            foreach (var item in deserialziedXML.shape)
             {
                 if (!tempTypes.Contains(item.GetType()))
                 {
@@ -59,12 +45,12 @@ namespace Ex1_Csharp
                     {
                         if (item.GetType().Name == types[i].Name)
                         {
-                            using (StreamWriter sw = File.CreateText(@"D:\" + item.GetType().Name + ".txt"))
+                            using (StreamWriter sw = File.CreateText(filesLocation + item.GetType().Name + ".txt"))
                             {
                                 tempTypes.Add(item.GetType());
                                 Console.WriteLine($"Type: {item.type}"); //
                                 sw.WriteLine($"Type: {item.type}"); //
-                                var sublist = deserilizer.shape.Where(T => T.GetType().Name == types[i].Name);
+                                var sublist = deserialziedXML.shape.Where(T => T.GetType().Name == types[i].Name);
                                 Console.WriteLine($"Number of records: {sublist.Count()}");//
                                 sw.WriteLine($"Number of records: {sublist.Count()}");//
                                 foreach (var obj in sublist)
@@ -77,10 +63,66 @@ namespace Ex1_Csharp
                     }
                 }
             }
+        }
 
-            Console.WriteLine();
+        private static void GetObjectTypes(this Shapes deserialziedXML)
+        {
+            foreach (var item in deserialziedXML.shape)
+            {
+                if (!types.Contains(item.GetType()))
+                {
+                    types.Add(item.GetType());
+                }
+            }
         }
     }
+
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            TestMethod();
+        }
+
+        private static void TestMethod()
+        {
+            string xmllocation = @"D:\shapeTest.xml";
+            string testFilelocation = @"D:\";
+
+            Shapes shapesRoot = new Shapes();
+            List<Shape> shapesList = new List<Shape>();
+
+            shapesList.Add(new Circle(7));
+            shapesList.Add(new Rectangle(5, 7));
+            shapesList.Add(new Rectangle(23, 33));
+            shapesList.Add(new Rectangle(15, 6));
+            shapesList.Add(new Triangle(10, 5, 5));
+            shapesList.Add(new Triangle(12, 5, 10));
+            shapesList.Add(new Triangle(20, 35, 15));
+
+            shapesRoot.shape = shapesList;
+
+            try
+            {
+                MyXmlSerializer<Shapes, Shape> myXmlSerializer = new MyXmlSerializer<Shapes, Shape>();
+                myXmlSerializer.SerialzieXml(xmllocation, shapesRoot);
+
+                var deserialziedXML = myXmlSerializer.DeserializeXml(xmllocation);
+                Console.WriteLine();
+
+                GenerateTextFile.SaveAsText(deserialziedXML, testFilelocation);
+
+                Console.WriteLine();
+            }
+            catch (InvalidOperationException e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
+        }
+    }
+
+
 
 
     [XmlRoot(ElementName = "shapes")]
@@ -115,58 +157,181 @@ namespace Ex1_Csharp
     }
     public class Circle : Shape
     {
-        public double a;
+        protected double _a;
+
+        public double A
+        {
+            get
+            {
+                return _a;
+            }
+            set
+            {
+                try
+                {
+                    if (value <= 0)
+                    {
+                        throw new ParameterException("Inocrrect parameter! Parameter must be a number greater than zero!");
+                    }
+                    else
+                    {
+                        _a = value;
+                    }
+                }
+                catch (ParameterException e)
+                {
+                    Console.WriteLine(e.Message);
+                    double newValue = 0;
+                    bool result = false;
+                    do
+                    {
+                        result = double.TryParse(Console.ReadLine(), out newValue);
+                    } while (!result);
+                    _a = newValue;
+                }
+            }
+        }
+        public Circle()
+        {
+
+        }
+        public Circle(double paramA) : base()
+        {
+            A = paramA;
+        }
 
         public override double CalculateArea()
         {
-            double result = Math.PI * Math.Pow(a, 2);
+            double result = Math.PI * Math.Pow(_a, 2);
             return result;
         }
         public override double CalculatePerimeter()
         {
-            double result = 2 * Math.PI * a;
+            double result = 2 * Math.PI * _a;
             return result;
         }
         public override string GetInfo()
         {
-            return $"a = {a}" + GetAreaAndPerimeter();
+            return $"a = {_a}" + GetAreaAndPerimeter();
         }
     }
     public class Rectangle : Circle
     {
-        public double b;
+        protected double _b;
+        public double B
+        {
+            get
+            {
+                return _b;
+            }
+            set
+            {
+                try
+                {
+                    if (value <= 0)
+                    {
+                        throw new ParameterException("Inocrrect parameter! Parameter must be a number greater than zero!");
+                    }
+                    else
+                    {
+                        _b = value;
+                    }
+                }
+                catch (ParameterException e)
+                {
+                    Console.WriteLine(e.Message);
+                    double newValue = 0;
+                    bool result = false;
+                    do
+                    {
+                        result = double.TryParse(Console.ReadLine(), out newValue);
+                    } while (!result);
+                    _b = newValue;
+                }
+            }
+        }
+
+        public Rectangle()
+        {
+
+        }
+        public Rectangle(double paramB, double paramA) : base(paramA)
+        {
+            B = paramB;
+        }
         public override double CalculateArea()
         {
-            double result = a * b;
+            double result = _a * _b;
             return result;
         }
         public override double CalculatePerimeter()
         {
-            double result = 2 * a + 2 * b;
+            double result = 2 * _a + 2 * _b;
             return result;
         }
         public override string GetInfo()
         {
-            return $"a = {a} ,b = {b}" + GetAreaAndPerimeter();
+            return $"a = {_a} ,b = {_b}" + GetAreaAndPerimeter();
         }
     }
 
     public class Triangle : Rectangle
     {
-        public double c;
+        protected double _c;
+        public double C
+        {
+            get
+            {
+                return _c;
+            }
+            set
+            {
+                try
+                {
+                    if (value <= 0)
+                    {
+                        throw new ParameterException("Inocrrect parameter! Parameter must be a number greater than zero!");
+                    }
+                    else
+                    {
+                        _c = value;
+                    }
+                }
+                catch (ParameterException e)
+                {
+                    Console.WriteLine(e.Message);
+                    double newValue = 0;
+                    bool result = false;
+                    do
+                    {
+                        result = double.TryParse(Console.ReadLine(), out newValue);
+                    } while (!result);
+                    _c = newValue;
+                }
+            }
+        }
+
+        public Triangle()
+        {
+
+        }
+        public Triangle(double paramA, double paramB, double paramC) : base(paramA, paramB)
+        {
+            C = paramC;
+        }
         public override double CalculateArea()
         {
-            double result = ((a + b) * c) / 2;
+            double result = ((_a + _b) * _c) / 2;
             return result;
         }
         public override double CalculatePerimeter()
         {
-            double result = a + b + c;
+            double result = _a + _b + _c;
             return result;
         }
         public override string GetInfo()
         {
-            return $"a = {a} ,b = {b}, c = {c}" + GetAreaAndPerimeter();
+            return $"a = {_a} ,b = {_b}, c = {_c}" + GetAreaAndPerimeter();
         }
     }
 }

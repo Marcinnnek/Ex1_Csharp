@@ -10,7 +10,7 @@ namespace Ex1_Csharp_Tests
             double pb = 20;
             double pc = 30;
 
-            Triangle triangle = new Triangle() { a = pa, b = pb, c = pc };
+            Triangle triangle = new Triangle() { A = pa, B = pb, C = pc };
             var result = triangle.CalculatePerimeter();
             var expected = pa+pb+pc;
 
@@ -25,7 +25,7 @@ namespace Ex1_Csharp_Tests
             double pb = 20;
             double pc = 30;
 
-            Triangle triangle = new Triangle() { a = pa, b = pb, c = pc };
+            Triangle triangle = new Triangle() { A = pa, B = pb, C = pc };
             var result = triangle.CalculateArea();
             var expected = ((pa + pb) * pc) / 2;
             
