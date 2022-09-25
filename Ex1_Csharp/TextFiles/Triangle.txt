@@ -1,0 +1,5 @@
+Type: Triangle
+Number of records: 3
+a = 10 ,b = 5, c = 5, area = 37,50, preimeter = 20,00
+a = 12 ,b = 5, c = 10, area = 85,00, preimeter = 27,00
+a = 20 ,b = 35, c = 15, area = 412,50, preimeter = 70,00

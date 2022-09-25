@@ -1,0 +1,43 @@
+﻿<shapes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <shape xsi:type="Circle">
+    <type>Circle</type>
+    <A>7</A>
+  </shape>
+  <shape xsi:type="Circle">
+    <type>Circle</type>
+    <A>25</A>
+  </shape>
+  <shape xsi:type="Rectangle">
+    <type>Rectangle</type>
+    <A>5</A>
+    <B>7</B>
+  </shape>
+  <shape xsi:type="Rectangle">
+    <type>Rectangle</type>
+    <A>23</A>
+    <B>33</B>
+  </shape>
+  <shape xsi:type="Rectangle">
+    <type>Rectangle</type>
+    <A>15</A>
+    <B>6</B>
+  </shape>
+  <shape xsi:type="Triangle">
+    <type>Triangle</type>
+    <A>10</A>
+    <B>5</B>
+    <C>5</C>
+  </shape>
+  <shape xsi:type="Triangle">
+    <type>Triangle</type>
+    <A>12</A>
+    <B>5</B>
+    <C>10</C>
+  </shape>
+  <shape xsi:type="Triangle">
+    <type>Triangle</type>
+    <A>20</A>
+    <B>35</B>
+    <C>15</C>
+  </shape>
+</shapes>

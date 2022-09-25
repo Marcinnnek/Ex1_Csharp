@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -23,6 +23,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ex1_Csharp\Ex1_Csharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TextFiles\" />
   </ItemGroup>
 
 </Project>

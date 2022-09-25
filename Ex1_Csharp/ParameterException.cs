@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ex1_Csharp
 {
-    public class ParameterException :Exception
+    public class ParameterException : Exception
     {
-        public ParameterException(string message):base(message)
+        public ParameterException(string message) : base(message)
         {
 
         }

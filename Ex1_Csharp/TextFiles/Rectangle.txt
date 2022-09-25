@@ -1,0 +1,5 @@
+Type: Rectangle
+Number of records: 3
+a = 5 ,b = 7, area = 35,00, preimeter = 24,00
+a = 23 ,b = 33, area = 759,00, preimeter = 112,00
+a = 15 ,b = 6, area = 90,00, preimeter = 42,00

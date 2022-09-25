@@ -8,8 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Test.cs" />
-    <Compile Remove="TestV2.cs" />
+    <Folder Include="TextFiles\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,17 @@
+﻿<shapes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <shape xsi:type="Circle">
+    <type>Circle</type>
+    <A>7</A>
+  </shape>
+  <shape xsi:type="Rectangle">
+    <type>Rectangle</type>
+    <A>15</A>
+    <B>6</B>
+  </shape>
+  <shape xsi:type="Triangle">
+    <type>Triangle</type>
+    <A>12</A>
+    <B>5</B>
+    <C>10</C>
+  </shape>
+</shapes>

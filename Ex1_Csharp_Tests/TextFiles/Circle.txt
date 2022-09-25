@@ -1,0 +1,3 @@
+Type: Circle
+Number of records: 1
+a = 7, area = 153,94, preimeter = 43,98
